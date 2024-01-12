@@ -16,12 +16,17 @@ public class PlayerControlBehaviour : NetworkBehaviour
     bool isFacingLeft;
     [SerializeField]
     WeaponBehaviour[] weaponBehaviours;
+    [SyncVar]
     int mainWeaponIndex;
     // Start is called before the first frame update
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>(); 
+        for (int i = 0; i < weaponBehaviours.Length; i++)
+        {
+            weaponBehaviours[i].ChangeToBaseColor(mainWeaponIndex == i);
+        }
     }
     [Client]
     // Update is called once per frame
@@ -49,6 +54,10 @@ public class PlayerControlBehaviour : NetworkBehaviour
         else if (Input.GetKeyDown(KeyCode.P))
         {
             CmdSwitchWeapon(2);
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+
         }
     }
     [Command]
@@ -98,16 +107,28 @@ public class PlayerControlBehaviour : NetworkBehaviour
     [Command]
     void CmdSwitchWeapon(int weaponIndex)
     {
+        mainWeaponIndex = weaponIndex;
         //Validate logic to check if correct person
-        RpcSwitchWeapon(weaponIndex);
+        RpcSwitchWeapon(mainWeaponIndex);
     }
     [ClientRpc]
     void RpcSwitchWeapon(int weaponIndex)
     {
-        mainWeaponIndex = weaponIndex;
+        //mainWeaponIndex = weaponIndex;
         for (int i = 0; i < weaponBehaviours.Length; i++)
         {
-            weaponBehaviours[i].gameObject.SetActive(i == mainWeaponIndex);
+            weaponBehaviours[i].ChangeToBaseColor(mainWeaponIndex == i);
         }
+    }
+    [Command]
+    void CmdFireWeapon()
+    {
+        //Validate logic to check if correct person
+        RpcFireWeapon();
+    }
+    [ClientRpc]
+    void RpcFireWeapon()
+    {
+        //weaponBehaviours[mainWeaponIndex]
     }
 }

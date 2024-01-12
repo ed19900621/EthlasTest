@@ -243,7 +243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6127053624750435804
 Transform:
   m_ObjectHideFlags: 0
@@ -302,7 +302,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 1, g: 1, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -324,11 +324,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c51b0f1f392034698ee8691e14fa5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
+  spriteRenderer: {fileID: 4481216255886341360}
   bullet: {fileID: 0}
   bulletSpawnPoint: {fileID: 6936184489351714759}
+  coolDown: 0
+  baseColor: {r: 1, g: 1, b: 0, a: 1}
 --- !u!1 &6008543794093480984
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,11 +427,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c51b0f1f392034698ee8691e14fa5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
+  spriteRenderer: {fileID: 260917150336764851}
   bullet: {fileID: 0}
   bulletSpawnPoint: {fileID: 8072545920147340995}
+  coolDown: 0
+  baseColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &6734624533335788843
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +511,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5188156332715006428
 Transform:
   m_ObjectHideFlags: 0
@@ -570,7 +570,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -592,8 +592,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c51b0f1f392034698ee8691e14fa5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
+  spriteRenderer: {fileID: 2845913516898187247}
   bullet: {fileID: 0}
   bulletSpawnPoint: {fileID: 8809042825375517935}
+  coolDown: 0
+  baseColor: {r: 0, g: 1, b: 0, a: 1}

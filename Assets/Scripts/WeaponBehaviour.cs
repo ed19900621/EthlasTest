@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
-using Mirror;
 using UnityEngine;
+using Mirror;
 
 public class WeaponBehaviour : NetworkBehaviour
 {
     [SerializeField]
+    SpriteRenderer spriteRenderer;
+    [SerializeField]
     GameObject bullet;
     [SerializeField]
     Transform bulletSpawnPoint;
+    [SerializeField]
+    float coolDown;
+    float timer;
+    [SerializeField]
+    Color baseColor;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -20,15 +27,12 @@ public class WeaponBehaviour : NetworkBehaviour
     {
         
     }
-    [Command]
-    void CmdFireWeapon()
-    {
-        //Validate logic to check if correct person
-        RpcFireWeapon();
-    }
-    [ClientRpc]
-    public void RpcFireWeapon()
+    void FireWeapon()
     {
         Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
+    }
+    public void ChangeToBaseColor(bool b)
+    {
+        spriteRenderer.color = b ? baseColor : Color.clear;
     }
 }
