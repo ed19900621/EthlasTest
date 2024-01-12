@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class PlayerMovementBehaviour : NetworkBehaviour
+public class PlayerControlBehaviour : NetworkBehaviour
 {
     [SerializeField]
     float jumpForce;
@@ -13,6 +13,10 @@ public class PlayerMovementBehaviour : NetworkBehaviour
     LayerMask layerMaskforGround;
     Rigidbody2D rb2D;
     CapsuleCollider2D capsuleCollider;
+    bool isFacingLeft;
+    [SerializeField]
+    WeaponBehaviour[] weaponBehaviours;
+    int mainWeaponIndex;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +38,18 @@ public class PlayerMovementBehaviour : NetworkBehaviour
         }
         float horizontalMovement = Input.GetAxis("Horizontal");
         CmdWalk(horizontalMovement);
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            CmdSwitchWeapon(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+        {
+            CmdSwitchWeapon(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            CmdSwitchWeapon(2);
+        }
     }
     [Command]
     void CmdJumpIfOnGround()
@@ -61,6 +77,37 @@ public class PlayerMovementBehaviour : NetworkBehaviour
     [ClientRpc]
     void RpcWalk(float axis)
     {
+        if (axis > 0)
+        {
+            isFacingLeft = false;
+        }
+        else if (axis < 0)
+        {
+            isFacingLeft = true;
+        }
+        if (isFacingLeft)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        else
+        {
+            transform.eulerAngles = Vector3.zero;
+        }
         transform.Translate(transform.right * axis * speed);
+    }
+    [Command]
+    void CmdSwitchWeapon(int weaponIndex)
+    {
+        //Validate logic to check if correct person
+        RpcSwitchWeapon(weaponIndex);
+    }
+    [ClientRpc]
+    void RpcSwitchWeapon(int weaponIndex)
+    {
+        mainWeaponIndex = weaponIndex;
+        for (int i = 0; i < weaponBehaviours.Length; i++)
+        {
+            weaponBehaviours[i].gameObject.SetActive(i == mainWeaponIndex);
+        }
     }
 }
