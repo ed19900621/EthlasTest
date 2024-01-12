@@ -57,7 +57,7 @@ public class PlayerControlBehaviour : NetworkBehaviour
         }
         if (Input.GetKey(KeyCode.Space))
         {
-
+            CmdFireWeapon();
         }
     }
     [Command]
@@ -123,8 +123,9 @@ public class PlayerControlBehaviour : NetworkBehaviour
     [Command]
     void CmdFireWeapon()
     {
+        weaponBehaviours[mainWeaponIndex].FireWeapon(isFacingLeft);
         //Validate logic to check if correct person
-        RpcFireWeapon();
+        //RpcFireWeapon();
     }
     [ClientRpc]
     void RpcFireWeapon()

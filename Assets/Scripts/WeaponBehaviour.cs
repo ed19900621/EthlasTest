@@ -21,15 +21,23 @@ public class WeaponBehaviour : NetworkBehaviour
     {
 
     }
-
+    [Server]
     // Update is called once per frame
     void Update()
     {
-        
+        timer -= Time.deltaTime;
     }
-    void FireWeapon()
+
+    public void FireWeapon(bool b)
     {
-        Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
+        if (timer <= 0)
+        {
+            timer = coolDown;
+            GameObject bulletGO = Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity) as GameObject;
+            BulletBehaviour bulletBehaviour = bulletGO.GetComponent<BulletBehaviour>();
+            bulletBehaviour.SetIsFlyingLeft(b);
+            NetworkServer.Spawn(bulletGO);
+        }
     }
     public void ChangeToBaseColor(bool b)
     {
