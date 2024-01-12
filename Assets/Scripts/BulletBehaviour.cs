@@ -41,7 +41,8 @@ public class BulletBehaviour : NetworkBehaviour
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                Debug.Log("Hit Player. Take damage");
+                PlayerHealthBehaviour phb = collision.gameObject.GetComponent<PlayerHealthBehaviour>();
+                phb.CmdTakeDamage(damage);
             }
         }
         NetworkServer.Destroy(this.gameObject);
