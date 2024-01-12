@@ -190,5 +190,5 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  speed: 0.0005
-  damage: 1
+  speed: 0.05
+  damage: 7

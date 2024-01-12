@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
 public class WeaponBehaviour : NetworkBehaviour
@@ -13,9 +14,14 @@ public class WeaponBehaviour : NetworkBehaviour
     Transform bulletSpawnPoint;
     [SerializeField]
     float coolDown;
+    [SyncVar(hook = (nameof(HandleTimerUpdated)))]
     float timer;
     [SerializeField]
     Color baseColor;
+    [SerializeField]
+    Color onCoolDownColor;
+    [SerializeField]
+    Image cooldownUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,5 +48,11 @@ public class WeaponBehaviour : NetworkBehaviour
     public void ChangeToBaseColor(bool b)
     {
         spriteRenderer.color = b ? baseColor : Color.clear;
+    }
+
+    private void HandleTimerUpdated(float oldValue, float newValue)
+    {
+        cooldownUI.fillAmount = Mathf.Clamp((coolDown - timer) / coolDown, 0, 1.0f);
+        cooldownUI.color = cooldownUI.fillAmount < 1 ? onCoolDownColor : baseColor;
     }
 }
