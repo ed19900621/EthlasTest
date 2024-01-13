@@ -28,13 +28,30 @@ public class ScoreBehaviour : NetworkBehaviour
         }
     }
 
+    public string DetermineWinner()
+    {
+        if (p1Score > p2Score)
+        {
+            return "P1 Wins. ";
+        }
+        else if (p2Score > p1Score)
+        {
+
+            return "P2 Wins. ";
+        }
+        else
+        {
+            return "It's a Draw. ";
+        }
+    }
+
     private void HandleP1ScoreUpdated(int oldValue, int newValue)
     {
-        p1ScoreText.text = "P1 Score:" + p1Score.ToString();
+        p1ScoreText.text = "P1 Score: " + p1Score.ToString();
     }
 
     private void HandleP2ScoreUpdated(int oldValue, int newValue)
     {
-        p2ScoreText.text = "P2 Score:" + p2Score.ToString();
+        p2ScoreText.text = "P2 Score: " + p2Score.ToString();
     }
 }

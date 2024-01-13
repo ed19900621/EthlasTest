@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using System.Dynamic;
 
 public class PlayerHealthBehaviour : NetworkBehaviour
 {
@@ -25,6 +26,13 @@ public class PlayerHealthBehaviour : NetworkBehaviour
         playerHealth = maxHealth;
         scoreBehaviour = GameObject.FindObjectOfType<ScoreBehaviour>();
     }
+
+    public void SetIndex(int i)
+    {
+        index = i;
+        playerControlBehaviour.SetisFacingLeft(index != 0);
+    }
+
     [Server]
     public void CmdTakeDamage(int i)
     {

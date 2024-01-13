@@ -213,7 +213,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  maxHealth: 5
+  maxHealth: 20
   slider: {fileID: 1835791606638445612}
   playerControlBehaviour: {fileID: 3948494475339951005}
   deadPosition: {x: 0, y: -100, z: 0}

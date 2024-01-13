@@ -16,8 +16,9 @@ public class PlayerControlBehaviour : NetworkBehaviour
     bool isFacingLeft;
     [SerializeField]
     WeaponBehaviour[] weaponBehaviours;
-    [SyncVar]
+    [SyncVar(hook = (nameof(HandleMainWeaponIndexUpdated)))]
     int mainWeaponIndex;
+    TimerBehaviour timerBehaviour;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,12 +28,17 @@ public class PlayerControlBehaviour : NetworkBehaviour
         {
             weaponBehaviours[i].ChangeToBaseColor(mainWeaponIndex == i);
         }
+        timerBehaviour = GameObject.FindObjectOfType<TimerBehaviour>();
     }
     [Client]
     // Update is called once per frame
     void Update()
     {
         if (!isLocalPlayer)
+        {
+            return;
+        }
+        if (timerBehaviour.GetPlayersCanMove() == false)
         {
             return;
         }
@@ -77,6 +83,18 @@ public class PlayerControlBehaviour : NetworkBehaviour
             rb2D.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
         }
     }
+    public void SetisFacingLeft(bool b)
+    {
+        isFacingLeft = b;
+        if (isFacingLeft)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        else
+        {
+            transform.eulerAngles = Vector3.zero;
+        }
+    }
     [Command]
     void CmdWalk(float axis)
     {
@@ -115,10 +133,10 @@ public class PlayerControlBehaviour : NetworkBehaviour
     void RpcSwitchWeapon(int weaponIndex)
     {
         //mainWeaponIndex = weaponIndex;
-        for (int i = 0; i < weaponBehaviours.Length; i++)
+        /*for (int i = 0; i < weaponBehaviours.Length; i++)
         {
             weaponBehaviours[i].ChangeToBaseColor(mainWeaponIndex == i);
-        }
+        }*/
     }
     [Command]
     void CmdFireWeapon()
@@ -131,5 +149,13 @@ public class PlayerControlBehaviour : NetworkBehaviour
     void RpcFireWeapon()
     {
         //weaponBehaviours[mainWeaponIndex]
+    }
+
+    private void HandleMainWeaponIndexUpdated(int oldValue, int newValue)
+    {
+        for (int i = 0; i < weaponBehaviours.Length; i++)
+        {
+            weaponBehaviours[i].ChangeToBaseColor(mainWeaponIndex == i);
+        }
     }
 }
